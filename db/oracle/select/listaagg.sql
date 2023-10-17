@@ -1,4 +1,4 @@
--- Pode ser utilizado em oravle >= 11GR2
+-- Pode ser utilizado em Oracle >= 11GR2
 -- SEM LISTAGG
 select 
     cddd_fonp, cfonefonp
