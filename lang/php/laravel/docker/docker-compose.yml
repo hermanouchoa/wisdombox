@@ -1,0 +1,15 @@
+version: '1'
+services:
+  laravel-docker:
+    build: ./
+    ports:
+      - 8080:80
+    volumes:
+      - ./:/var/www/nome_projeto/
+    restart: always
+    networks:
+      - docker
+
+networks:
+  docker: 
+    driver: bridge
