@@ -47,3 +47,5 @@ begin
       end loop;
   dbms_output.put_line('Finalizando Execução do Script...');
 end;
+
+-- #for #forin 
