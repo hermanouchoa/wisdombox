@@ -1,0 +1,9 @@
+# Inicialmente deve-se entrar no diretório de isntalação do Firebird
+# No meu caso esta instalado em "/opt/firebird/bin/" (Linux)
+cd /opt/firebird/bin/
+
+# Comando para fazer Backup
+./gbak -backup -v -t -ignore -user sysdba -password masterkey localhost:/path/basededados/seubanco.gdb /path/seubackup.gbk
+
+# Comando para restaurar Backup
+./gbak -create -v -one_at_a_time -user sysdba -password masterkey /path/seubackup.gbk localhost:/path/bancorestaurado.gdb
