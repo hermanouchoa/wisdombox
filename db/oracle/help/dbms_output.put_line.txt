@@ -4,3 +4,5 @@ dbms_output.put_line('Um texto qualquer dentro do código...');
 -- Exibir OutPut para depuração de código você deve usar os seguintes comandos antes da execução do script
 set serveroutput on
 set serveroutput on size unlimited
+
+# sqlplus, outout, dbms_output.put_line, put_line
