@@ -1,0 +1,16 @@
+/*
+Utilizo bloco de comando como o abaixo para criação de JOBs no Oracle
+*/
+
+variable jobno number;
+begin
+    dbms_job.submit(:jobno
+                   ,'PROCEDURE_QUE_SERA_EXECUTADA_PELA_JOB(PARAMETRO1, PARAMETRO2)'
+                   ,sysdate
+                   ,'TRUNC(SYSDATE + 1) + 01/24'
+                   );
+end;
+
+/
+
+# job, dbms_job.submit, dbms_job
