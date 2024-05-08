@@ -17,7 +17,7 @@ public class LendoParametrosLinhaComando {
 }
 
 /*
- * Exemplo> de como usar a Classe pelo prompt
+ * Exemplo de como usar a Classe pelo prompt
  *      java LendoParametrosLinhaComando.java en Hermano
  *      java LendoParametrosLinhaComando.java pt Joao
  */
