@@ -1,3 +1,5 @@
+# Utilizo esse docker-compose.yml, em conjunto com o arquivo Dockerfile, para projetos em Laravel
+# Deve-se substituir "nome_projeto" pelo nome real do projeto
 version: '1'
 services:
   laravel-docker:
