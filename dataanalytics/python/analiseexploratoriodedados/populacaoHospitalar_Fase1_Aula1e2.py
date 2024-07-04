@@ -70,7 +70,7 @@ dados.plot(
 #plt.show() #Descomentar para exibir o gráfico
 
 print("--------------------")
-print("Criando Grafico - Barras (Com Formatação)")
+print("Criando Grafico - Barras - DESAFIO!")
 import matplotlib.ticker as ticker
 axis = dados.plot(
      x="Unidade da Federação" # eixa 'x'
@@ -85,3 +85,18 @@ plt.show()
 #Desafios:
 #   Executar o gráfico anterior com o mês mais recente
 #   Deixar as legendas ângulares (0,45 etc) para facilitar a leitura
+print("--------------------")
+print("Criando Grafico - Barras (Com Formatação)")
+import matplotlib.ticker as ticker
+axis = dados.plot(
+     x="Unidade da Federação" # eixa 'x'
+    ,y="2008/Ago" # eixo 'y'
+    ,kind="bar" # tipo de gráfico (barras)
+    ,figsize=(9,6) # tamanho do grário (horizontal,vertical)
+     )
+axis.yaxis.set_major_formatter( ticker.StrMethodFormatter("{x:,.2f}") ) # mudando o formatador no eixo 'Y'
+plt.title("Valor por Unidade da Federação (UF) - DESAFIO") # mudando título do gráfico
+
+plt.xticks(rotation=45, ha='right') # DESAFIO: Deixar as legendas ângulares (0,45 etc) para facilitar a leitura
+
+plt.show()
