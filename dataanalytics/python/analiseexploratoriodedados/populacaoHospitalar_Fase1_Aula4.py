@@ -1,7 +1,7 @@
 #pip install pandas
 #pip install matplotlib
 
-# FASE 1 | AULA 3
+# FASE 1 | AULA 4
 
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -53,17 +53,21 @@ ordenadosPorTotal = ordenadosPorTotal.drop("Total", axis=1)
 print(ordenadosPorTotal.head(5))
 
 print("Colunas interessadas")
-colunasInteressadas = ordenadosPorTotal.columns[0:]
+colunasInteressadas = ordenadosPorTotal.columns[-60:]
 print(colunasInteressadas)
 
 ordenadosPorTotal = ordenadosPorTotal[colunasInteressadas]
 
-ordenadosPorTotal.head(5).T.plot(figsize=(10,6))
-
+print("Gerando Gráfico")
+ordenadosPorTotal = ordenadosPorTotal / 1000000 
+axis = ordenadosPorTotal.head(3).T.plot(figsize=(10,6))
+#axis.yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:,.0f}"))
+axis.set_ylabel("Gasto em milhoões de R$")
+axis.set_xlabel("Mês")
+plt.ylim(0,600)
 plt.show()
 
 ### Desafio
-###     Adicionar seu estado aos 5 estados existenes, e plotar
-###     Deixar o gráfico mais refinado
-###     Pesquisar os casos de dengue do Brasil e verificar se existe algum padrão com os gastos encontrados aqui!
-###     Plotar estados de somente uma regiao do Brasil
+###     Padronizar os ticks verticais para espeçamento de 12 em 12 unidades (uma vez ao ano)
+###     Escolher e utilizar outras corees para saltar aos olhos
+###     colocar uma grade (grid) horizontal que não seja intrusivo.

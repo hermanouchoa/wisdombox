@@ -1,16 +1,18 @@
 #pip install pandas
 #pip install matplotlib
-#python -m pip install seaborn
+
+# FASE 1 | AULA 3
 
 import pandas as pd
 import matplotlib.pyplot as plt
-#import seaborn as sns
+import matplotlib.ticker as ticker
+import numpy as np
 
+pathArquivoDeDados = 'C:\\projetos\\wisdombox\\dataanalytics\\python\\analiseexploratoriodedados\\sih_cnv_qiuf_ano_mes_processamento.csv'
 
 #criando um dataframe
 dados = pd.read_csv(
-     #'C:\\projetos\\hermanouchoa\\wisdombox\\dataanalytics\\python\\analiseexploratoriodedados\\sih_cnv_qiuf_ano_mes_atendimento.csv'
-     'C:\\projetos\\hermanouchoa\\wisdombox\\dataanalytics\\python\\analiseexploratoriodedados\\sih_cnv_qiuf_ano_mes_processamento.csv'
+     pathArquivoDeDados     
     , encoding='ISO-8859-1'
     , skiprows=3 # para não ler as primeiras linhas
     , sep=';' # para definir o caractere de separação do arquivo csv
@@ -20,96 +22,38 @@ dados = pd.read_csv(
     , engine='python'
     )
 
-# FASE 1 - AULA 3
+#selecionando "n" colunas
+print("Selecionando 'n' colunas")
+nColunas = dados[ ["2008/Ago","2008/Set"] ]
+print(nColunas.head())
 
-print("--------------------")
-print("Selecionando mais de uma coluna")
-colunasAgoSet = dados[
-    ["2008/Ago","2008/Set"]
-]
-headColunasAgoSet = colunasAgoSet.head()
-print(headColunasAgoSet)
 
-print("--------------------")
-print("Todas as Colunas do Dataframe")
-colunas = dados.columns # obter todas as colunas do dataframe
-print(colunas)
+# Com a média estarei obtendo apenas as colunas com valores válidos, visto que não é possível ober média das colunas com valores vários.
+media = dados.mean(numeric_only=True) # Utilizando o mean para obter a média. 
+colunasUsaveis = media.index.to_list()
+colunasUsaveis.insert(0, "Unidade da Federação") #inserindo mais um item na lista python
+print("Colunas Usaveis")
+print(colunasUsaveis[:5])
 
-print("--------------------")
-print("Gerando média dos dados")
-media = dados.mean(numeric_only=True)
-print(media)
-
-print("--------------------")
-print("Tratamento de Colunas - Colunas Usaveis")
-colunasUsaveis = media.index.to_list() # gerando uma lista do python a partir do index da média. (o index da média é o nome das colunas do conjunto de dados)
-print(colunasUsaveis)
-
-print("--------------------")
-print("Tratamento de Colunas - Colunas Usaveis (inserindo coluna de UF)")
-colunasUsaveis.insert(0,"Unidade da Federação") # inserindo em uma lista do python mais um registro no inicio da lista
-colunasUsaveis[:5]
-print(colunasUsaveis)
-
-print("--------------------")
 print("Dados Usaveis")
-dadosUsaveis = dados[colunasUsaveis]
-headDadosUsaveis = dadosUsaveis.head()
-print(headDadosUsaveis)
+dadoUsaveis = dados[colunasUsaveis] # o conjunto da dados agora será apenas sobre as colunas com dados válidos
+print(dadoUsaveis.head)
 
-print("--------------------")
-print("Dados Usaveis - Mudando indice do cojunto de dados")
-dadosUsaveis = dados[colunasUsaveis]
-dadosUsaveis = dadosUsaveis.set_index("Unidade da Federação")
-print(dadosUsaveis)
+print("Dados Usaveis com novo indice, Unidade da Federação")
+dadoUsaveis = dadoUsaveis.set_index("Unidade da Federação") # alterando o indece do dataframe
+print(dadoUsaveis.head)
 
-print("Dados Usaveis (head) - Indice do cojunto de dados alterado")
-headNovoDadosUsaveis = dadosUsaveis.head()
-print(headNovoDadosUsaveis)
+np.random.seed(524387)
+dadoUsaveis = dadoUsaveis.sample(n=7)
 
-print("--------------------")
-print("Localizando pelo indice. Dados do Ceará")
-dadsoCeara = dadosUsaveis.loc["23 Ceará"]
-print(dadsoCeara)
+print("Dados usuaveis - amostra randomica")
+print(dadoUsaveis)
 
+print("Dados usuaveis - Adicionada coluna de Total")
+dadoUsaveis["Total"] = dadoUsaveis.sum(axis=1) #adicionando no final uma coluna de total
+print(dadoUsaveis.head)
 
-print("--------------------")
-print("Dados Gráfico")
-#removendo a linha de total do conjunto de dados que será utilizado para o gráfico
-dadosGrafico = dadosUsaveis.drop(
-    "Total" # desejo remover a linha com o indice "Total"
-    ,axis=1 # definindo o eixo que será realizado do drop (0 (zero) = procura nas linhas / 1 (um) = produta nas colunas)
-    )
-#dadosGrafico = dadosGrafico[:7] #sete primeiras linhas
-
-import numpy as np
-np.random.seed(1234) 
-
-dadosGrafico = dadosGrafico.sample(n=7) #obter sete registros randomicamente dentro do dataframe
-dadosGrafico = dadosGrafico.T # para transpor das colunas (transforma linhas em colunas e colunas em linhas)
-
-print("--------------------")
-print("Criando Grafico - Linhas Temporal")
-import matplotlib.ticker as ticker
-axis = dadosGrafico.plot(
-    #x="Unidade da Federação" # eixa 'x'
-    #,y="2008/Ago" # eixo 'y'
-    #,kind="bar" # tipo de gráfico (barras)
-    figsize=(10,6) # tamanho do grário (horizontal,vertical)
-     )
-axis.yaxis.set_major_formatter( ticker.StrMethodFormatter("{x:,.2f}") ) # mudando o formatador no eixo 'Y'
-#plt.title("Valor por Unidade da Federação (UF)") # mudando título do gráfico
-plt.show()
-
-
-print("--------------------")
-print("Adicionando Coluna de Total")
-dadosGrafico["Total"] = dadosGrafico.sum(
-    axis=1 # eixa 'x' para adicionar uma nova coluna
-)
-print(dadosGrafico.head())
-
-# Defasio
-#   Ordenar Dataframe para que na primeira linha tenha a linha com maior gasto, e na última com menor gasto (ordenação)
-#   Adicionar uma Coluna com a Região do Estado
-#   Adicione seu estado na lista final de estados
+### Desafio
+###     Ordenar o data frame para que na primeira linha tenha a linha com maior gasto e na última a com menor gasto (ordenação)
+###     Adicionar uma coluna com a região do estado
+###     Adicione seu estado na lista de 7 Estados gerada
