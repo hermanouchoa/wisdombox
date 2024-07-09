@@ -53,3 +53,17 @@ novos_dados = pd.read_csv(dados_da_populacao_io, sep="\t")
 populacao = novos_dados.dropna()
 print("-------------------")
 print(novos_dados.head())
+
+populacao.columns = ["posicao","uf","populacao","porcentagem","pais_comparavel"]
+print("População")
+print(populacao)
+
+print("População - Replace no conteudo da celula na coluna 'populacao'")
+populacao["populacao"] = populacao["populacao"].str.replace(" ","").astype(int)
+print(populacao.head())
+
+print("População - apenas colunas de 'uf' e 'populacao'")
+populacao = populacao[["uf", "populacao"]]
+print(populacao.head())
+
+
