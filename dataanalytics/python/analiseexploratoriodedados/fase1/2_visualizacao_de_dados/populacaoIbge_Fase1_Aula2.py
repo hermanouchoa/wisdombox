@@ -66,4 +66,12 @@ print("População - apenas colunas de 'uf' e 'populacao'")
 populacao = populacao[["uf", "populacao"]]
 print(populacao.head())
 
+import sys
+print(sys.path)
 
+from dataframe_populacao_hospitalar import DataFramePopulacaoHospitalar
+# Crie uma instância da classe DataFrameGenerator
+df_generator = DataFramePopulacaoHospitalar()
+df = df_generator.to_dataframe()
+
+print(df)
