@@ -5,7 +5,6 @@
 
 import pandas as pd
 import matplotlib.pyplot as plt
-import seaborn as sns
 
 #path_dados = 'C:\\projetos\\hermanouchoa\\wisdombox\\dataanalytics\\python\\analiseexploratoriodedados\\estimativa_dou_2020.xls'
 #path_dados = "https://github.com/alura-cursos/agendamento-hospitalar/blob/main/dados/estimativa_dou_2020.xls?raw=true"
@@ -96,38 +95,3 @@ print(populacao.index)
 joinGastosHospitalaresEPopulacao = populacao.join(populacaoHospitalar)
 print("join")
 print(joinGastosHospitalaresEPopulacao)
-
-ultimaColuna = joinGastosHospitalaresEPopulacao.columns[-1]
-joinGastosHospitalaresEPopulacao["gastos_recentes"] = joinGastosHospitalaresEPopulacao[ultimaColuna] * 1_000_000
-
-#joinGastosHospitalaresEPopulacao = joinGastosHospitalaresEPopulacao.loc[["Ceará","Pará"]]
-
-joinGastosHospitalaresEPopulacao["gasto_por_habitante"] = joinGastosHospitalaresEPopulacao["gastos_recentes"] / populacao["populacao"]
-
-print("ceará e pará")
-print(joinGastosHospitalaresEPopulacao.head())
-
-joinGastosHospitalaresEPopulacao["gasto_por_habitante"].plot(
-    kind="bar"
-)
-
-plt.show()
-
-### Desafio:
-###     deixar o gráfico mais arrumado com legenda adequada, titulos, eixos e ordenar do maior gasto por habilitante
-###     colcoar a média dos gastos como uma linha horizontal
-###     ordenar por número de habitantes
-
-print("Usando seaborn")
-
-plt.figure(figsize=(7,7))
-sns.scatterplot(data=joinGastosHospitalaresEPopulacao / 1_000_000, x="populacao", y="gastos_recentes")
-plt.show()
-
-sns.scatterplot(data=joinGastosHospitalaresEPopulacao / 1_000_000, x="populacao", y="gasto_por_habitante")
-plt.show()
-
-### Desafio:
-###     melhorar todos os gráficos. Já tem nomes nos eixo x e y mas tem muito o que melhorar
-###     executar o mesmo gráfico para penúltimo mês
-###     plote o gráfico de gasto por população para os dois meses simultâneamente. Diferenciando os pontos com uma tonalidade de cor diferente para cada mês.
