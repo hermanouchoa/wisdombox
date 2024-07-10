@@ -71,7 +71,27 @@ print(sys.path)
 
 from dataframe_populacao_hospitalar import DataFramePopulacaoHospitalar
 # Crie uma instância da classe DataFrameGenerator
-df_generator = DataFramePopulacaoHospitalar()
-df = df_generator.to_dataframe()
+populacaoHospitalar = DataFramePopulacaoHospitalar()
+populacaoHospitalar = populacaoHospitalar.to_dataframe()
 
-print(df)
+print("População Hospitalar")
+print(populacaoHospitalar.head())
+
+populacaoHospitalar.index = populacaoHospitalar.index.str[3:] # removendo os três primeiros caracteres do index do dataframe
+print("População Hospitalar - index ajustado")
+print(populacaoHospitalar.head())
+
+populacao = populacao.set_index("uf")
+populacao.index = populacao.index.str.strip() # removendo espaços em branco do inicio e do fim da string
+
+#existem alguns registro que o nome do estado esta repetido, essa lógica é para ajuste isso
+for estado in populacaoHospitalar.index:
+    populacao.index = populacao.index.str.replace(f"{estado} {estado}", estado)
+
+print("Index de população ajustado (nome de estados repetido bahia/pará)")
+print(populacao.index)
+
+#fazendo um join com o dataframe de população hospitalar com a população do IBGE
+joinGastosHospitalaresEPopulacao = populacao.join(populacaoHospitalar)
+print("join")
+print(joinGastosHospitalaresEPopulacao)
