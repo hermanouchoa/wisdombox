@@ -6,6 +6,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+import matplotlib.ticker as ticker
 
 #path_dados = 'C:\\projetos\\hermanouchoa\\wisdombox\\dataanalytics\\python\\analiseexploratoriodedados\\estimativa_dou_2020.xls'
 #path_dados = "https://github.com/alura-cursos/agendamento-hospitalar/blob/main/dados/estimativa_dou_2020.xls?raw=true"
@@ -112,22 +113,29 @@ def insereGastosEGastoPorHabitante(populacaoHospitalar, joinGastosHospitalaresEP
     
 
 insereGastosEGastoPorHabitante(populacaoHospitalar, joinGastosHospitalaresEPopulacao, populacaoHospitalar.columns[-1])
-#print("....")
-#print(joinGastosHospitalaresEPopulacao.head())
 insereGastosEGastoPorHabitante(populacaoHospitalar, joinGastosHospitalaresEPopulacao, populacaoHospitalar.columns[-2])
+insereGastosEGastoPorHabitante(populacaoHospitalar, joinGastosHospitalaresEPopulacao, populacaoHospitalar.columns[-3])
 #print("----")
 #print(joinGastosHospitalaresEPopulacao.head())
-insereGastosEGastoPorHabitante(populacaoHospitalar, joinGastosHospitalaresEPopulacao, populacaoHospitalar.columns[-3])
-print("----")
-print(joinGastosHospitalaresEPopulacao.head())
 
-plt.figure(figsize=(7,7))
-sns.scatterplot(data=joinGastosHospitalaresEPopulacao, x="populacao", y="gastos_2024/Jan")
-sns.scatterplot(data=joinGastosHospitalaresEPopulacao, x="populacao", y="gastos_2024/Fev")
-sns.scatterplot(data=joinGastosHospitalaresEPopulacao, x="populacao", y="gastos_2024/Mar")
+
+#plt.figure(figsize=(7,7))
+#sns.scatterplot(x=populacaoHospitalar.columns, y=populacaoHospitalar.loc["Ceará"])
+
+
+mensal = populacaoHospitalar.T
+plt.figure(figsize=(10,6))
+#sns.scatterplot(data=mensal, x=mensal.index, y="Ceará")
+axis = sns.lineplot(data=mensal, x=mensal.index, y="Ceará")
+plt.xticks(rotation=30)
+#plt.ylim(0,300)
+axis.xaxis.set_major_locator(ticker.IndexLocator(base=12,offset=0))
+plt.grid(linestyle="--")
 plt.show()
 
-### Desafio:
-###     legenda, diminuir marcações e arrumar o gráfico
-###     explorem esse gráfico e levantem alguma hipótese ou questão
-###     comparar os últimos 12 meses comos 12 meses anteriores. Somar os 12 últimos meses em uma única coluna
+### Desafio: 
+###     Fazer o gráfioco com dois estados, uma cor diferente para cada estado
+###     No gráfico acima fazer um valor máximo do eixo y que caiba todos os valores da nossa série. Além disso, pecisa de uma "respiro" (white space)
+###     Colocar um minor locator no mês de Julho
+
+

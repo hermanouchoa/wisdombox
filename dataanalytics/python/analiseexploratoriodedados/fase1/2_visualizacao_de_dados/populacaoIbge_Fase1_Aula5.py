@@ -6,6 +6,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+import matplotlib.ticker as ticker
 
 #path_dados = 'C:\\projetos\\hermanouchoa\\wisdombox\\dataanalytics\\python\\analiseexploratoriodedados\\estimativa_dou_2020.xls'
 #path_dados = "https://github.com/alura-cursos/agendamento-hospitalar/blob/main/dados/estimativa_dou_2020.xls?raw=true"
@@ -52,32 +53,20 @@ dados_da_populacao_io = StringIO(dados_da_populacao)
 
 novos_dados = pd.read_csv(dados_da_populacao_io, sep="\t")
 populacao = novos_dados.dropna()
-#print("-------------------")
-#print(novos_dados.head())
 
 populacao.columns = ["posicao","uf","populacao","porcentagem","pais_comparavel"]
-#print("População")
-#print(populacao)
 
-#print("População - Replace no conteudo da celula na coluna 'populacao'")
 populacao["populacao"] = populacao["populacao"].str.replace(" ","").astype(int)
-#print(populacao.head())
 
-#print("População - apenas colunas de 'uf' e 'populacao'")
 populacao = populacao[["uf", "populacao"]]
-#print(populacao.head())
 
 from dataframe_populacao_hospitalar import DataFramePopulacaoHospitalar
 # Crie uma instância da classe DataFrameGenerator
 populacaoHospitalar = DataFramePopulacaoHospitalar()
 populacaoHospitalar = populacaoHospitalar.to_dataframe()
 
-#print("População Hospitalar")
-#print(populacaoHospitalar.head())
 
 populacaoHospitalar.index = populacaoHospitalar.index.str[3:] # removendo os três primeiros caracteres do index do dataframe
-#print("População Hospitalar - index ajustado")
-#print(populacaoHospitalar.head())
 
 populacao = populacao.set_index("uf")
 populacao.index = populacao.index.str.strip() # removendo espaços em branco do inicio e do fim da string
@@ -86,23 +75,15 @@ populacao.index = populacao.index.str.strip() # removendo espaços em branco do 
 for estado in populacaoHospitalar.index:
     populacao.index = populacao.index.str.replace(f"{estado} {estado}", estado)
 
-#print("Index de população ajustado (nome de estados repetido bahia/pará)")
-#print(populacao.index)
 
 #fazendo um join com o dataframe de população hospitalar com a população do IBGE
 joinGastosHospitalaresEPopulacao = populacao.join(populacaoHospitalar)
-#print("join")
-#print(joinGastosHospitalaresEPopulacao)
 
 ultimaColuna = joinGastosHospitalaresEPopulacao.columns[-1]
 joinGastosHospitalaresEPopulacao["gastos_recentes"] = joinGastosHospitalaresEPopulacao[ultimaColuna] * 1_000_000
 
-#joinGastosHospitalaresEPopulacao = joinGastosHospitalaresEPopulacao.loc[["Ceará","Pará"]]
 
 joinGastosHospitalaresEPopulacao["gasto_por_habitante"] = joinGastosHospitalaresEPopulacao["gastos_recentes"] / populacao["populacao"]
-
-#print("ceará e pará")
-#print(joinGastosHospitalaresEPopulacao.head())
 
 def insereGastosEGastoPorHabitante(populacaoHospitalar, joinGastosHospitalaresEPopulacao, mes):
     gastos = populacaoHospitalar[mes]
@@ -112,22 +93,81 @@ def insereGastosEGastoPorHabitante(populacaoHospitalar, joinGastosHospitalaresEP
     
 
 insereGastosEGastoPorHabitante(populacaoHospitalar, joinGastosHospitalaresEPopulacao, populacaoHospitalar.columns[-1])
-#print("....")
-#print(joinGastosHospitalaresEPopulacao.head())
 insereGastosEGastoPorHabitante(populacaoHospitalar, joinGastosHospitalaresEPopulacao, populacaoHospitalar.columns[-2])
-#print("----")
-#print(joinGastosHospitalaresEPopulacao.head())
 insereGastosEGastoPorHabitante(populacaoHospitalar, joinGastosHospitalaresEPopulacao, populacaoHospitalar.columns[-3])
-print("----")
-print(joinGastosHospitalaresEPopulacao.head())
 
-plt.figure(figsize=(7,7))
-sns.scatterplot(data=joinGastosHospitalaresEPopulacao, x="populacao", y="gastos_2024/Jan")
-sns.scatterplot(data=joinGastosHospitalaresEPopulacao, x="populacao", y="gastos_2024/Fev")
-sns.scatterplot(data=joinGastosHospitalaresEPopulacao, x="populacao", y="gastos_2024/Mar")
+
+
+mensal = populacaoHospitalar.T
+
+meses = {
+    "Jan": 1,
+    "Fev": 2,
+    "Mar": 3,
+    "Abr": 4,
+    "Mai": 5,
+    "Jun": 6,
+    "Jul": 7,
+    "Ago": 8,
+    "Set": 9,
+    "Out": 10,
+    "Nov": 11,
+    "Dez": 12
+}
+
+from datetime import date
+def para_dia(ano_mes: str):
+    ano: int = int(ano_mes[:4])
+    mesComoString = ano_mes[5:]
+    mes: int = meses[mesComoString]
+    return date(ano, mes, 1)
+
+#print(mensal.index.map(para_dia))
+
+mensal.index = mensal.index.map(para_dia)
+mensalAberto = mensal.reset_index().melt(id_vars=["index"], value_vars=mensal.columns)
+mensalAberto.columns = ["dia_mes_ano", "uf", "gasto"]
+mensalAberto["dia_mes_ano"] = pd.to_datetime(mensalAberto["dia_mes_ano"])
+mensalAberto["ano"] = mensalAberto["dia_mes_ano"].dt.year
+mensalAberto["mes"] = mensalAberto["dia_mes_ano"].dt.month
+
+mensalAbertoCeara = mensalAberto.query("uf=='Ceará'")
+
+print(mensalAbertoCeara.head())
+
+plt.figure(figsize=(10,6))
+axis = sns.lineplot(data=mensalAbertoCeara, x="mes", y="gasto",hue="ano")
+plt.xticks(rotation=30)
+plt.ylim(0,300)
+#axis.xaxis.set_major_locator(ticker.IndexLocator(base=365,offset=0))
+plt.grid(linestyle="--")
 plt.show()
 
-### Desafio:
-###     legenda, diminuir marcações e arrumar o gráfico
-###     explorem esse gráfico e levantem alguma hipótese ou questão
-###     comparar os últimos 12 meses comos 12 meses anteriores. Somar os 12 últimos meses em uma única coluna
+
+dias_por_mes = {
+    1: 31,
+    2: 28,
+    3: 30,
+    4: 31,
+    5: 30,
+    6: 31,
+    7: 30,
+    8: 31,
+    9: 30,
+    10: 31,
+    11: 30,
+    12: 31
+}
+
+mensalAberto["gasto_diario"] = mensalAberto["gasto"] / mensalAberto["mes"].map(dias_por_mes)
+
+print(mensalAberto.head())
+
+mensalAbertoCeara = mensalAberto.query("uf=='Ceará'")
+plt.figure(figsize=(10,6))
+axis = sns.lineplot(data=mensalAbertoCeara, x="mes", y="gasto_diario",hue="ano")
+plt.xticks(rotation=30)
+#plt.ylim(0,300)
+#axis.xaxis.set_major_locator(ticker.IndexLocator(base=365,offset=0))
+plt.grid(linestyle="--")
+plt.show()
