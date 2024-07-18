@@ -4,7 +4,7 @@ import pandas as pd
 #file_path = 'C:\\projetos\\wisdombox\\dataanalytics\\python\\analiseexploratoriodedados\\fase1\\tech_challenge\\dadosbrutos\\Producao.csv'
 #new_file_path = 'C:\\projetos\\wisdombox\\dataanalytics\\python\\analiseexploratoriodedados\\fase1\\tech_challenge\\dadosbrutos\\'
 
-file_path = 'C:\\projetos\\hermanouchoa\\wisdombox\\dataanalytics\\python\\analiseexploratoriodedados\\fase1\\tech_challenge\\dadosbrutos\\Producao.csv'
+file_path = 'C:\\projetos\\hermanouchoa\\wisdombox\\dataanalytics\\python\\analiseexploratoriodedados\\fase1\\tech_challenge\\dadosbrutos\\Comercio.csv'
 new_file_path = 'C:\\projetos\\hermanouchoa\\wisdombox\\dataanalytics\\python\\analiseexploratoriodedados\\fase1\\tech_challenge\\dados\\'
 
 # Carregar o arquivo CSV sem cabeçalho, usando ";" como delimitador
@@ -21,7 +21,7 @@ header = ['index', 'classificacao','nome_classificacao'] + [str(year) for year i
 df.columns = header
 
 # Salvar o dataframe com o novo cabeçalho
-output_path = new_file_path+'Producao_ok.csv'
+output_path = new_file_path+'Comercio_ok.csv'
 df.to_csv(output_path, index=False, sep=';')
 
 print(f'Arquivo salvo como {output_path}')
