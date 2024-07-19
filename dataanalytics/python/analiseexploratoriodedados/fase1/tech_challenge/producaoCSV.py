@@ -1,8 +1,16 @@
 import pandas as pd
+import os
+
+from dotenv import load_dotenv # pip install python-dotenv
+
+# Carrega as variáveis do arquivo .env para o ambiente
+load_dotenv()
 
 # Caminho para o arquivo CSV
-file_path = 'C:\\projetos\\wisdombox\\dataanalytics\\python\\analiseexploratoriodedados\\fase1\\tech_challenge\\dadosbrutos\\Producao.csv'
-new_file_path = 'C:\\projetos\\wisdombox\\dataanalytics\\python\\analiseexploratoriodedados\\fase1\\tech_challenge\\dados\\'
+file_path = os.getenv('PATH_DADOS_BRUTOS')+"Producao.csv"
+new_file_path = os.getenv('PATH_DADOS')
+#file_path = 'C:\\projetos\\wisdombox\\dataanalytics\\python\\analiseexploratoriodedados\\fase1\\tech_challenge\\dadosbrutos\\Producao.csv'
+#new_file_path = 'C:\\projetos\\wisdombox\\dataanalytics\\python\\analiseexploratoriodedados\\fase1\\tech_challenge\\dados\\'
 
 # Carregar o arquivo CSV sem cabeçalho, usando ";" como delimitador
 df = pd.read_csv(file_path, header=None, delimiter=';')
