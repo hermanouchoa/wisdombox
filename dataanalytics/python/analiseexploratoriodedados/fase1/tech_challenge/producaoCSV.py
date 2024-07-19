@@ -2,7 +2,7 @@ import pandas as pd
 
 # Caminho para o arquivo CSV
 file_path = 'C:\\projetos\\wisdombox\\dataanalytics\\python\\analiseexploratoriodedados\\fase1\\tech_challenge\\dadosbrutos\\Producao.csv'
-new_file_path = 'C:\\projetos\\wisdombox\\dataanalytics\\python\\analiseexploratoriodedados\\fase1\\tech_challenge\\dadosbrutos\\'
+new_file_path = 'C:\\projetos\\wisdombox\\dataanalytics\\python\\analiseexploratoriodedados\\fase1\\tech_challenge\\dados\\'
 
 # Carregar o arquivo CSV sem cabeçalho, usando ";" como delimitador
 df = pd.read_csv(file_path, header=None, delimiter=';')
@@ -20,18 +20,21 @@ df.columns = header
 # Adicionar a nova coluna "classe" na segunda posição
 def classify(row):
     classificacao = row['classificacao']
-    if classificacao.startswith('vm'):
+    if classificacao.startswith('vm_'):
         return 'VINHO DE MESA'
-    elif classificacao.startswith('vv'):
+    elif classificacao.startswith('vv_'):
         return 'VINHO FINO DE MESA (VINÍFERA)'
-    elif classificacao.startswith('su'):
+    elif classificacao.startswith('su_'):
         return 'SUCO'
-    elif classificacao.startswith('de'):
+    elif classificacao.startswith('de_'):
         return 'DERIVADOS'
     else:
-        return 'OUTRO'
+        return None
 
 df['classe'] = df.apply(classify, axis=1)
+
+# Remover linhas onde a coluna "classe" é None
+df = df.dropna(subset=['classe'])
 
 # Reorganizar as colunas para que "classe" esteja na segunda posição
 cols = df.columns.tolist()
