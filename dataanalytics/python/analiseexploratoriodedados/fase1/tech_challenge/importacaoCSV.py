@@ -21,7 +21,16 @@ mapeamento_pais = {
     "Tcheca,  Republica": "Republica Tcheca",
     "Turcas e Caicos, ilhas": "Ilhas Turcas e Caicos",
     "Coreia do Norte, Republica": "Coreia do Norte",
-    "Coreia do Sul, Republica": "Coreia do Sul"
+    "Coreia do Sul, Republica": "Coreia do Sul"    
+}
+
+# Mapeamento de arquivos para a classe
+mapeamento_classe = {
+    "ImpEspumantes.csv": "Espumantes",
+    "ImpFrescas.csv": "Uvas Frescas",
+    "ImpPassas.csv": "Uvas Passas",
+    "ImpSuco.csv": "Suco de Uva",
+    "ImpVinhos.csv": "Vinhos de Mesa",
 }
 
 arquivos_com_prefixo = []
@@ -37,9 +46,14 @@ for arquivo in os.listdir(file_path):
         # Contar o número de colunas
         num_columns = df.shape[1]
 
-        # Ajustar o cabeçalho com base no número de colunas
-        header = ['index', 'pais'] + [str(year) for year in range(1970, 1970 + num_columns - 2)]
-
+        # Ajustar o cabeçalho com base no número de pares "kg, valor"
+        num_pairs = (num_columns - 2) // 2
+        header = ['index', 'pais']
+        
+        for year in range(1970, 1970 + num_pairs):
+            header.append(f'kg_{year}')
+            header.append(f'valor_{year}')
+        
         # Adicionar o cabeçalho ao dataframe
         df.columns = header
 
@@ -49,6 +63,13 @@ for arquivo in os.listdir(file_path):
 
         # Ajustar os valores da coluna "pais"
         df['pais'] = df['pais'].replace(mapeamento_pais)
+
+        # Adicionar a coluna 'classe' com base no nome do arquivo
+        df['classe'] = mapeamento_classe.get(arquivo, 'Desconhecido')
+
+        # Reorganizar as colunas para que 'classe' seja a segunda
+        cols = ['index', 'classe', 'pais'] + header[3:]
+        df = df[cols]
 
         # Salvar o dataframe com o novo cabeçalho
         output_path = new_file_path + arquivo + '_ok.csv'
