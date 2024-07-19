@@ -1,6 +1,11 @@
 import os
 import pandas as pd
 
+from dotenv import load_dotenv # pip install python-dotenv
+
+# Carrega as variáveis do arquivo .env para o ambiente
+load_dotenv()
+
 def listar_paises_unicos(diretorio):
     paises = set()  # Usar um conjunto para evitar duplicações
 
@@ -29,7 +34,8 @@ def salvar_paises_em_csv(paises, arquivo_saida):
     else:
         print("Nenhum país foi encontrado nos arquivos CSV fornecidos.")
 
-diretorio = 'C:\\projetos\\wisdombox\\dataanalytics\\python\\analiseexploratoriodedados\\fase1\\tech_challenge\\dados\\'
+diretorio = os.getenv('PATH_DADOS')
+
 arquivo_saida = diretorio+'paises.csv'
 paises = listar_paises_unicos(diretorio)
 

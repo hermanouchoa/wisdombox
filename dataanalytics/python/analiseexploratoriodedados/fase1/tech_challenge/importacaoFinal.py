@@ -7,11 +7,12 @@ from dotenv import load_dotenv # pip install python-dotenv
 # Carrega as variáveis do arquivo .env para o ambiente
 load_dotenv()
 
-# Caminho para o arquivo CSV
+# Diretório onde os arquivos CSV estão localizados
+#file_path = 'C:\\projetos\\wisdombox\\dataanalytics\\python\\analiseexploratoriodedados\\fase1\\tech_challenge\\dados\\'
 file_path = os.getenv('PATH_DADOS')
 
 # Padrão para encontrar os arquivos CSV que começam com "Exp"
-padrao_arquivos = os.path.join(file_path, 'Exp*.csv')
+padrao_arquivos = os.path.join(file_path, 'Imp*.csv')
 
 # Lista para armazenar os novos dados
 todos_dados = []
@@ -48,4 +49,4 @@ for arquivo_csv in arquivos_csv:
 novo_df = pd.DataFrame(todos_dados, columns=['classe', 'pais', 'ano', 'kg', 'valor'])
 
 # Salva o novo dataframe em um arquivo CSV
-novo_df.to_csv(file_path+'ExpotacaoFinal.csv', index=False, sep=';')
+novo_df.to_csv(file_path+'ImportacaoFinal.csv', index=False, sep=';')

@@ -1,13 +1,14 @@
 import pandas as pd
 import os
 
+from dotenv import load_dotenv # pip install python-dotenv
+
+# Carrega as variáveis do arquivo .env para o ambiente
+load_dotenv()
+
 # Caminho para o arquivo CSV
-#file_path = 'C:\\projetos\\wisdombox\\dataanalytics\\python\\analiseexploratoriodedados\\fase1\\tech_challenge\\dadosbrutos\\Producao.csv'
-#new_file_path = 'C:\\projetos\\wisdombox\\dataanalytics\\python\\analiseexploratoriodedados\\fase1\\tech_challenge\\dados\\'
-
-file_path = 'C:\\projetos\\hermanouchoa\\wisdombox\\dataanalytics\\python\\analiseexploratoriodedados\\fase1\\tech_challenge\\dadosbrutos\\'
-new_file_path = 'C:\\projetos\\hermanouchoa\\wisdombox\\dataanalytics\\python\\analiseexploratoriodedados\\fase1\\tech_challenge\\dados\\'
-
+file_path = os.getenv('PATH_DADOS_BRUTOS')
+new_file_path = os.getenv('PATH_DADOS')
 
 
 arquivos_com_prefixo = []

@@ -50,7 +50,7 @@ cols.insert(1, cols.pop(cols.index('classe')))
 df = df[cols]
 
 # Salvar o dataframe com o novo cabeçalho
-output_path = new_file_path + 'Producao_ok.csv'
+output_path = new_file_path + 'Producao.csv'
 df.to_csv(output_path, index=False, sep=';')
 
 print(f'Arquivo salvo como {output_path}')

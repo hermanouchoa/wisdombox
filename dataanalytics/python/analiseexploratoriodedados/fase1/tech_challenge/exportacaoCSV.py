@@ -1,9 +1,15 @@
 import pandas as pd
 import os
-from unidecode import unidecode
 
-file_path = 'C:\\projetos\\wisdombox\\dataanalytics\\python\\analiseexploratoriodedados\\fase1\\tech_challenge\\dadosbrutos\\'
-new_file_path = 'C:\\projetos\\wisdombox\\dataanalytics\\python\\analiseexploratoriodedados\\fase1\\tech_challenge\\dados\\'
+from unidecode import unidecode # pip install Unidecode
+from dotenv import load_dotenv # pip install python-dotenv
+
+# Carrega as variáveis do arquivo .env para o ambiente
+load_dotenv()
+
+# Caminho para o arquivo CSV
+file_path = os.getenv('PATH_DADOS_BRUTOS')
+new_file_path = os.getenv('PATH_DADOS')
 
 mapeamento_pais = {
     "Alemanha, Republica Democratica": "Alemanha",
@@ -71,7 +77,7 @@ for arquivo in os.listdir(file_path):
         df = df[cols]
 
         # Salvar o dataframe com o novo cabeçalho
-        output_path = new_file_path + arquivo + '_ok.csv'
+        output_path = new_file_path + arquivo
         df.to_csv(output_path, index=False, sep=';')
 
         print(f'Arquivo salvo como {output_path}')
