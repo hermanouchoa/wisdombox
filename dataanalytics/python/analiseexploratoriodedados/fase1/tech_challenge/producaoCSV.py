@@ -7,10 +7,8 @@ from dotenv import load_dotenv # pip install python-dotenv
 load_dotenv()
 
 # Caminho para o arquivo CSV
-file_path = os.getenv('PATH_DADOS_BRUTOS')+"Producao.csv"
+file_path = os.getenv('PATH_DADOS_BRUTOS')+"Comercio.csv"
 new_file_path = os.getenv('PATH_DADOS')
-#file_path = 'C:\\projetos\\wisdombox\\dataanalytics\\python\\analiseexploratoriodedados\\fase1\\tech_challenge\\dadosbrutos\\Producao.csv'
-#new_file_path = 'C:\\projetos\\wisdombox\\dataanalytics\\python\\analiseexploratoriodedados\\fase1\\tech_challenge\\dados\\'
 
 # Carregar o arquivo CSV sem cabeçalho, usando ";" como delimitador
 df = pd.read_csv(file_path, header=None, delimiter=';')
