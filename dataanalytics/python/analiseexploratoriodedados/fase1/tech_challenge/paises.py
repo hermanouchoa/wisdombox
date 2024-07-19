@@ -10,7 +10,7 @@ def listar_paises_unicos(diretorio):
     paises = set()  # Usar um conjunto para evitar duplicações
 
     for arquivo in os.listdir(diretorio):
-        if arquivo.startswith("Imp") and arquivo.endswith('.csv'):
+        if (arquivo.startswith("Imp") or arquivo.startswith("Exp")) and arquivo.endswith('.csv'):
             caminho_arquivo = os.path.join(diretorio, arquivo)
             try:
                 df = pd.read_csv(caminho_arquivo, delimiter=';', usecols=['pais'], engine='python')  # Ler a coluna "pais"
