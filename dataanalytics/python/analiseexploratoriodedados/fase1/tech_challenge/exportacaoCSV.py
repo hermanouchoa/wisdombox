@@ -22,6 +22,14 @@ mapeamento_pais = {
     "Turcas e Caicos, ilhas": "Ilhas Turcas e Caicos"
 }
 
+# Mapeamento de arquivos para a classe
+mapeamento_classe = {
+    "ExpEspumantes.csv": "Espumantes",
+    "ExpSuco.csv": "Suco de Uva",
+    "ExpUva.csv": "Uvas Frescas",
+    "ExpVinho.csv": "Vinhos de Mesa"
+}
+
 arquivos_com_prefixo = []
 for arquivo in os.listdir(file_path):
     if arquivo.startswith("Exp") and arquivo.endswith('.csv'):
@@ -47,6 +55,13 @@ for arquivo in os.listdir(file_path):
 
         # Ajustar os valores da coluna "pais"
         df['pais'] = df['pais'].replace(mapeamento_pais)
+
+        # Adicionar a coluna 'classe' com base no nome do arquivo
+        df['classe'] = mapeamento_classe.get(arquivo, 'Desconhecido')
+
+        # Reorganizar as colunas para que 'classe' seja a segunda
+        cols = ['index', 'classe', 'pais'] + [str(year) for year in range(1970, 1970 + num_columns - 2)]
+        df = df[cols]
 
         # Salvar o dataframe com o novo cabeçalho
         output_path = new_file_path + arquivo + '_ok.csv'
