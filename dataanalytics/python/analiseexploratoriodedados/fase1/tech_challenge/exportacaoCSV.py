@@ -27,7 +27,8 @@ mapeamento_pais = {
     "Tcheca,  Republica": "Republica Tcheca",
     "Turcas e Caicos, ilhas": "Ilhas Turcas e Caicos",
     "Coreia do Norte, Republica": "Coreia do Norte",
-    "Coreia do Sul, Republica": "Coreia do Sul"
+    "Coreia do Sul, Republica": "Coreia do Sul",
+    "italia": "Italia"
 }
 
 # Mapeamento de arquivos para a classe
