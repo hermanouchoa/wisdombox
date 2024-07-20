@@ -52,5 +52,5 @@ novo_df = pd.DataFrame(todos_dados, columns=['classe', 'produto','nome_produto',
 novo_df['ano'] = pd.to_datetime(novo_df['ano'], format='%Y')
 
 # Salva o novo dataframe em um arquivo CSV
-output_file_path = os.path.join(file_path, 'ProducaoFinal.csv')
+output_file_path = os.path.join(file_path+"\\final\\", 'ProducaoFinal.csv')
 novo_df.to_csv(output_file_path, index=False, sep=';')
