@@ -38,7 +38,6 @@ for arquivo_csv in arquivos_csv:
         # Itera sobre cada ano no dataframe
         for ano in range(1970, 2020):
             kg_col = f'{ano}'
-            print(ano)
             
             # Verifica se as colunas existem no dataframe
             if kg_col in df.columns:
@@ -50,5 +49,9 @@ for arquivo_csv in arquivos_csv:
 # Cria um novo dataframe com os dados transformados
 novo_df = pd.DataFrame(todos_dados, columns=['classe', 'tipo','classificacao','nome_classificacao', 'ano', 'kg'])
 
+# Converte a coluna 'ano' para o formato de data (primeiro dia do ano)
+novo_df['ano'] = pd.to_datetime(novo_df['ano'], format='%Y')
+
 # Salva o novo dataframe em um arquivo CSV
-novo_df.to_csv(file_path+'ProcessamentoFinal.csv', index=False, sep=';')
+output_file_path = os.path.join(file_path, 'ProcessamentoFinal.csv')
+novo_df.to_csv(output_file_path, index=False, sep=';')

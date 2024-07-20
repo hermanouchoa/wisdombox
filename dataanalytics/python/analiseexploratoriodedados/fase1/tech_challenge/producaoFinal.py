@@ -12,7 +12,7 @@ load_dotenv()
 file_path = os.getenv('PATH_DADOS')
 
 # Padrão para encontrar os arquivos CSV que começam com "Exp"
-padrao_arquivos = os.path.join(file_path, 'Imp*.csv')
+padrao_arquivos = os.path.join(file_path, 'Produc*.csv')
 
 # Lista para armazenar os novos dados
 todos_dados = []
@@ -29,28 +29,28 @@ for arquivo_csv in arquivos_csv:
     
     # Itera sobre cada linha do dataframe
     for index, row in df.iterrows():
-        classe = row['classe']
-        pais = row['pais']
+        
+        classe = row['classe']        
+        classificacao = row['classificacao']
+        nome_classificacao = row['nome_classificacao']
         
         # Itera sobre cada ano no dataframe
         for ano in range(1970, 2020):
-            valor_col = f'valor_{ano}'
-            kg_col = f'kg_{ano}'
+            col = f'{ano}'
             
             # Verifica se as colunas existem no dataframe
-            if valor_col in df.columns and kg_col in df.columns:
-                valor = row[valor_col]
-                kg = row[kg_col]
+            if col in df.columns:
+                lt = row[col]
                 
                 # Adiciona a nova linha de dados na lista
-                todos_dados.append([classe, pais, ano, kg, valor])
+                todos_dados.append([classe,classificacao, nome_classificacao, ano, lt])
 
 # Cria um novo dataframe com os dados transformados
-novo_df = pd.DataFrame(todos_dados, columns=['classe', 'pais', 'ano', 'kg', 'valor'])
+novo_df = pd.DataFrame(todos_dados, columns=['classe', 'produto','nome_produto', 'ano', 'litros'])
 
 # Converte a coluna 'ano' para o formato de data (primeiro dia do ano)
 novo_df['ano'] = pd.to_datetime(novo_df['ano'], format='%Y')
 
 # Salva o novo dataframe em um arquivo CSV
-output_file_path = os.path.join(file_path, 'ImportacaoFinal.csv')
+output_file_path = os.path.join(file_path, 'ProducaoFinal.csv')
 novo_df.to_csv(output_file_path, index=False, sep=';')

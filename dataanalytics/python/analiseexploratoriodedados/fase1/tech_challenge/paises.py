@@ -28,7 +28,7 @@ def salvar_paises_em_csv(paises, arquivo_saida):
     if paises:
         paises = sorted(paises)
 
-        df_paises = pd.DataFrame(paises, columns=['Pais'])
+        df_paises = pd.DataFrame(paises, columns=['pais'])
         df_paises.to_csv(arquivo_saida, index=False)
         print(f"Lista de países única foi salva em '{arquivo_saida}'.")
     else:
