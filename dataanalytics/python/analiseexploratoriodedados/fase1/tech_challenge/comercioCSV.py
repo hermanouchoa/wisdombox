@@ -7,7 +7,7 @@ from dotenv import load_dotenv # pip install python-dotenv
 load_dotenv()
 
 # Caminho para o arquivo CSV
-file_path = os.getenv('PATH_DADOS_BRUTOS')+"Producao.csv"
+file_path = os.getenv('PATH_DADOS_BRUTOS')+"Comercio.csv"
 new_file_path = os.getenv('PATH_DADOS')
 #file_path = 'C:\\projetos\\wisdombox\\dataanalytics\\python\\analiseexploratoriodedados\\fase1\\tech_challenge\\dadosbrutos\\Producao.csv'
 #new_file_path = 'C:\\projetos\\wisdombox\\dataanalytics\\python\\analiseexploratoriodedados\\fase1\\tech_challenge\\dados\\'
@@ -30,12 +30,22 @@ def classify(row):
     classificacao = row['classificacao']
     if classificacao.startswith('vm_'):
         return 'VINHO DE MESA'
-    elif classificacao.startswith('vv_'):
-        return 'VINHO FINO DE MESA (VINÍFERA)'
+    elif classificacao.startswith('vfm_'):
+        return 'VINHO  FINO DE MESA'
+    elif classificacao.startswith('VINHO FRIZANTE'):
+        return 'VINHO FRIZANTE'
+    elif classificacao.startswith('VINHO ORGÂNICO'):
+        return 'VINHO ORGÂNICO'
+    elif classificacao.startswith('ve_'):
+        return 'VINHO ESPECIAL'
+    elif classificacao.startswith('es_'):
+        return 'ESPUMANTES'
     elif classificacao.startswith('su_'):
-        return 'SUCO'
-    elif classificacao.startswith('de_'):
-        return 'DERIVADOS'
+        return 'SUCO DE UVAS'
+    elif classificacao.startswith('SUCO DE UVAS CONCENTRADO'):
+        return 'SUCO DE UVAS CONCENTRADO'
+    elif classificacao.startswith('ou_'):
+        return 'OUTROS PRODUTOS COMERCIALIZADOS'
     else:
         return None
 
@@ -50,7 +60,7 @@ cols.insert(1, cols.pop(cols.index('classe')))
 df = df[cols]
 
 # Salvar o dataframe com o novo cabeçalho
-output_path = new_file_path + 'Producao.csv'
+output_path = new_file_path + 'Comercio.csv'
 df.to_csv(output_path, index=False, sep=';')
 
 print(f'Arquivo salvo como {output_path}')
