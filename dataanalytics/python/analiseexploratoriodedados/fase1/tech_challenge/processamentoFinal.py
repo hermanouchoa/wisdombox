@@ -32,8 +32,8 @@ for arquivo_csv in arquivos_csv:
         
         classe = row['classe']
         tipo = row['tipo']
-        classificacao = row['classificacao']
-        nome_classificacao = row['nome_classificacao']
+        cultivar = row['classificacao']
+        nome_cultivar = row['nome_classificacao']
         
         # Itera sobre cada ano no dataframe
         for ano in range(1970, 2020):
@@ -44,10 +44,10 @@ for arquivo_csv in arquivos_csv:
                 kg = row[kg_col]
                 
                 # Adiciona a nova linha de dados na lista
-                todos_dados.append([classe, tipo, classificacao, nome_classificacao, ano, kg])
+                todos_dados.append([classe, tipo, cultivar, nome_cultivar, ano, kg])
 
 # Cria um novo dataframe com os dados transformados
-novo_df = pd.DataFrame(todos_dados, columns=['classe', 'tipo','classificacao','nome_classificacao', 'ano', 'kg'])
+novo_df = pd.DataFrame(todos_dados, columns=['classe', 'tipo','cultivar','nome_cultivar', 'ano', 'kg'])
 
 # Converte a coluna 'ano' para o formato de data (primeiro dia do ano)
 novo_df['ano'] = pd.to_datetime(novo_df['ano'], format='%Y')
