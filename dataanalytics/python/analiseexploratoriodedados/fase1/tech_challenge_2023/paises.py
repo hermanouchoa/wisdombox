@@ -34,7 +34,7 @@ def salvar_paises_em_csv(paises, arquivo_saida):
     else:
         print("Nenhum país foi encontrado nos arquivos CSV fornecidos.")
 
-diretorio = os.getenv('PATH_DADOS')+"\\final\\"
+diretorio = os.getenv('PATH_DADOS_23')+"\\final\\"
 
 arquivo_saida = diretorio+'paises.csv'
 paises = listar_paises_unicos(diretorio)

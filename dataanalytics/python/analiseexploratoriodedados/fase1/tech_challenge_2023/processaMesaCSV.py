@@ -7,8 +7,8 @@ from dotenv import load_dotenv # pip install python-dotenv
 load_dotenv()
 
 # Caminho para o arquivo CSV
-file_path = os.getenv('PATH_DADOS_BRUTOS')+"ProcessaMesa.csv"
-new_file_path = os.getenv('PATH_DADOS')
+file_path = os.getenv('PATH_DADOS_BRUTOS_23')+"ProcessaMesa.csv"
+new_file_path = os.getenv('PATH_DADOS_23')
 
 # Carregar o arquivo CSV sem cabeçalho, usando ";" como delimitador
 df = pd.read_csv(file_path, header=0, delimiter=';')

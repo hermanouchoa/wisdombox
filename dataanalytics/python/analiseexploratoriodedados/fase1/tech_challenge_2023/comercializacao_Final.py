@@ -12,7 +12,7 @@ load_dotenv()
 file_path = os.getenv('PATH_DADOS_23')
 
 # Padrão para encontrar os arquivos CSV que começam com "Exp"
-padrao_arquivos = os.path.join(file_path, 'Produc*.csv')
+padrao_arquivos = os.path.join(file_path, 'Comercio*.csv')
 
 # Lista para armazenar os novos dados
 todos_dados = []
@@ -32,10 +32,10 @@ for arquivo_csv in arquivos_csv:
         
         classe = row['classe']        
         control = row['control']
-        produto = row['produto']
+        produto = row['Produto']
         
         # Itera sobre cada ano no dataframe
-        for ano in range(1970, 2024):
+        for ano in range(1970, 2023):
             col = f'{ano}'
             
             # Verifica se as colunas existem no dataframe
@@ -52,5 +52,5 @@ novo_df = pd.DataFrame(todos_dados, columns=['classe', 'control','produto', 'ano
 novo_df['ano'] = pd.to_datetime(novo_df['ano'], format='%Y')
 
 # Salva o novo dataframe em um arquivo CSV
-output_file_path = os.path.join(file_path+"\\final\\", 'ProducaoFinal.csv')
+output_file_path = os.path.join(file_path+"\\final\\", 'ComercializacaoFinal.csv')
 novo_df.to_csv(output_file_path, index=False, sep=';')

@@ -1,18 +1,16 @@
 import pandas as pd
 import glob
 import os
-
 from dotenv import load_dotenv # pip install python-dotenv
 
 # Carrega as variáveis do arquivo .env para o ambiente
 load_dotenv()
 
-# Diretório onde os arquivos CSV estão localizados
-#file_path = 'C:\\projetos\\wisdombox\\dataanalytics\\python\\analiseexploratoriodedados\\fase1\\tech_challenge\\dados\\'
+# Caminho para o arquivo CSV
 file_path = os.getenv('PATH_DADOS_23')
 
 # Padrão para encontrar os arquivos CSV que começam com "Exp"
-padrao_arquivos = os.path.join(file_path, 'Produc*.csv')
+padrao_arquivos = os.path.join(file_path, 'Exp*.csv')
 
 # Lista para armazenar os novos dados
 todos_dados = []
@@ -29,28 +27,28 @@ for arquivo_csv in arquivos_csv:
     
     # Itera sobre cada linha do dataframe
     for index, row in df.iterrows():
-        
-        classe = row['classe']        
-        control = row['control']
-        produto = row['produto']
+        classe = row['classe']
+        pais = row['pais']
         
         # Itera sobre cada ano no dataframe
-        for ano in range(1970, 2024):
-            col = f'{ano}'
+        for ano in range(1970, 2020):
+            valor_col = f'valor_{ano}'
+            kg_col = f'kg_{ano}'
             
             # Verifica se as colunas existem no dataframe
-            if col in df.columns:
-                lt = row[col]
+            if valor_col in df.columns and kg_col in df.columns:
+                valor = row[valor_col]
+                kg = row[kg_col]
                 
                 # Adiciona a nova linha de dados na lista
-                todos_dados.append([classe,control, produto, ano, lt])
+                todos_dados.append([classe, pais, ano, kg, valor])
 
 # Cria um novo dataframe com os dados transformados
-novo_df = pd.DataFrame(todos_dados, columns=['classe', 'control','produto', 'ano', 'litros'])
+novo_df = pd.DataFrame(todos_dados, columns=['classe', 'pais', 'ano', 'kg', 'valor'])
 
 # Converte a coluna 'ano' para o formato de data (primeiro dia do ano)
 novo_df['ano'] = pd.to_datetime(novo_df['ano'], format='%Y')
 
 # Salva o novo dataframe em um arquivo CSV
-output_file_path = os.path.join(file_path+"\\final\\", 'ProducaoFinal.csv')
+output_file_path = os.path.join(file_path+"\\final\\", 'ExportacaoFinal.csv')
 novo_df.to_csv(output_file_path, index=False, sep=';')
