@@ -34,7 +34,7 @@ for arquivo_csv in arquivos_csv:
         cultivar = row['cultivar']        
         
         # Itera sobre cada ano no dataframe
-        for ano in range(1970, 2020):
+        for ano in range(1970, 2024):
             kg_col = f'{ano}'
             
             # Verifica se as colunas existem no dataframe
