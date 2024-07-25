@@ -35,7 +35,7 @@ for arquivo_csv in arquivos_csv:
         produto = row['Produto']
         
         # Itera sobre cada ano no dataframe
-        for ano in range(1970, 2023):
+        for ano in range(1970, 2024):
             col = f'{ano}'
             
             # Verifica se as colunas existem no dataframe
