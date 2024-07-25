@@ -33,7 +33,7 @@ for arquivo_csv in arquivos_csv:
         pais = row['pais']
         
         # Itera sobre cada ano no dataframe
-        for ano in range(1970, 2020):
+        for ano in range(1970, 2024):
             valor_col = f'valor_{ano}'
             kg_col = f'kg_{ano}'
             
