@@ -1,0 +1,7 @@
+Utilizo o comando abaixo para reduzir o tamanho manualmente do volume virtual (vhdx)
+O Docker precisa ser interrompido antes de executar o comando:
+
+Optimize-VHD -Path C:\Users\f1852\AppData\Local\Docker\wsl\data\ext4.vhdx -Mode Full
+
+O docker-desktop-data vhdx normalmente está neste 
+local:%LOCALAPPDATA%\Docker\wsl\data\ext4.vhdx
