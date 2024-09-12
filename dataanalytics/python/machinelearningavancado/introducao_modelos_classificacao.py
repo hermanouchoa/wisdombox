@@ -25,7 +25,7 @@ print(
 
 
 dados.plot.scatter(x='Comprimento do Abdômen', y='Comprimento das Antenas')
-#plt.show()
+plt.show()
 
 # separando dados de testes e de treino
 #pip install -U scikit-learn
@@ -47,3 +47,22 @@ print( list(y_train).count('Esperança') )
 
 print("Total base de treino: ", len(x_train))
 print("Total base de teste: ", len(y_test))
+
+
+from sklearn.neighbors import KNeighborsClassifier
+modelo_classificador = KNeighborsClassifier( n_neighbors=3 )
+
+modelo_classificador.fit(
+    x_train, y_train
+)
+
+print(
+    modelo_classificador.predict(
+        [[8 ,6]]
+    )
+)
+
+y_predito = modelo_classificador.predict( x_test )
+
+from sklearn.metrics import accuracy_score
+print(accuracy_score( y_true=y_test, y_pred=y_predito ))
