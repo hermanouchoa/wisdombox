@@ -55,3 +55,16 @@ plt.show()
 sb.histplot(data=dados, x="salary")
 plt.show()
 
+sb.set_theme(style="whitegrid", palette="muted")
+
+ax = sb.swarmplot(data=dados, x="mba_p", y="status", hue="workex")
+ax.set(ylabel="")
+plt.show()
+
+import plotly_express as px
+
+px.violin(dados,y="salary",x="specialisation",color="gender",box=True,points="all")
+px.show()
+
+sb.pairplot(dados,vars=['ssc_p','hsc_p','degree_p','mba_p','etest_p'],hue="status")
+plt.show()
