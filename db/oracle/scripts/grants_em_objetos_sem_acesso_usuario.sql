@@ -1,4 +1,4 @@
-/* Script para liberar todas as funções da schema TASY para o usuário,
+/* Script para liberar todas as funções de schema para um usuário,
    caso ele ainda não possua acesso a elas. */
 
 /* Ative a saída antes de rodar */
