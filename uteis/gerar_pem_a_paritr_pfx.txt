@@ -1,0 +1,59 @@
+Para gerar um arquivo .PEM a partir de um .PFX, você pode usar o OpenSSL, que é a forma mais comum e compatível (inclusive para uso em servidores, Docker, Java, Nginx, etc.).
+
+## 1. Converter PFX para PEM (certificado + chave privada)
+Esse comando extrai **certificado e chave privada** no mesmo arquivo `.pem`:
+```bash
+openssl pkcs12 -in certificado.pfx -out certificado.pem -nodes
+```
+
+Você será solicitado a informar a **senha do arquivo .pfx**.
+* `-nodes` → não criptografa a chave privada
+* O arquivo final conterá:
+  * `BEGIN CERTIFICATE`
+  * `BEGIN PRIVATE KEY`
+
+---
+## 2. Gerar PEMs separados (recomendado)
+### Certificado público
+```bash
+openssl pkcs12 -in certificado.pfx -clcerts -nokeys -out certificado.pem
+```
+
+### Chave privada
+```bash
+openssl pkcs12 -in certificado.pfx -nocerts -nodes -out chave-privada.pem
+```
+
+Esse formato é ideal para:
+* Nginx / Apache
+* Aplicações Java
+* Containers Docker
+* APIs externas
+
+---
+## 3. Converter PEM para formato compatível com Java (RSA)
+Se você for usar em **Java (KeyStore, HTTPS, assinatura)**:
+```bash
+openssl rsa -in chave-privada.pem -out chave-privada-rsa.pem
+```
+
+---
+## 4. Verificar o conteúdo dos arquivos
+### Certificado
+```bash
+openssl x509 -in certificado.pem -text -noout
+```
+
+### Chave privada
+```bash
+openssl rsa -in chave-privada.pem -check
+```
+
+---
+## Boas práticas de segurança
+* Evite usar `-nodes` em produção se o ambiente não for seguro
+* Restrinja permissões:
+```bash
+chmod 600 chave-privada.pem
+```
+

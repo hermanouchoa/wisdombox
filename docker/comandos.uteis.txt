@@ -1,0 +1,17 @@
+# cria imagem, se não existir, e sobe container
+docker-compose up -d
+
+# entra com container 
+docker exec -it SEU_CONTAINER sh
+# ou...
+docker exec -it SEU_CONTAINER bash
+
+# remove imagnes e container
+docker-compose down --rmi all
+
+# lista imagens
+docker images
+
+# remove container
+docker rmi SEU_CONTAINER
+

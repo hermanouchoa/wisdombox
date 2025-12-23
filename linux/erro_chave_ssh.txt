@@ -1,0 +1,64 @@
+Tive o problema abaixo ao tentar acessa um servidor via SSH:
+C:\cmder
+λ ssh root@192.168.1.1
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@    WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!     @
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+IT IS POSSIBLE THAT SOMEONE IS DOING SOMETHING NASTY!
+Someone could be eavesdropping on you right now (man-in-the-middle attack)!
+It is also possible that a host key has just been changed.
+The fingerprint for the ECDSA key sent by the remote host is
+SHA256:vqj/5kuI3qDjVxxS287N6LAs54m13pAO5G6Pbnbie3U.
+Please contact your system administrator.
+Add correct host key in C:\\Users\\hermano/.ssh/known_hosts to get rid of this message.
+Offending ECDSA key in C:\\Users\\hermano/.ssh/known_hosts:9
+ECDSA host key for 192.168.1.1 has changed and you have requested strict checking.
+Host key verification failed.
+
+--------------------------------------------------------------------------------------------
+SOLUÇÃO:
+
+Essa mensagem aparece quando a chave do host remoto mudou desde a última vez que você se conectou. 
+Isso pode acontecer, por exemplo, se o servidor foi reinstalado, teve seu SSH reconfigurado ou realmente foi atacado (embora, em redes locais, isso geralmente não seja o caso).
+
+### Para resolver:
+
+#### ⚠️ Atenção:
+
+Se você tem certeza de que o servidor foi reinstalado ou configurado recentemente e não está sob ataque, siga os passos abaixo. 
+Caso contrário, entre em contato com quem administra o servidor para confirmar que a chave mudou de forma legítima.
+
+---
+
+### Passo a passo para corrigir:
+
+1. **Abra o terminal (Cmder, PowerShell ou outro).**
+2. Edite o arquivo `known_hosts` com um editor de texto, ou remova apenas a linha ofensiva com este comando:
+
+```bash
+ssh-keygen -R 192.168.1.223
+```
+
+Esse comando remove a entrada antiga da máquina `192.168.1.223` no arquivo `known_hosts`.
+
+3. Tente se conectar novamente:
+
+```bash
+ssh root@192.168.1.223
+```
+
+Na primeira conexão após a remoção, você verá uma mensagem como:
+
+```
+The authenticity of host '192.168.1.1 (192.168.1.1)' can't be established.
+ECDSA key fingerprint is SHA256:...
+Are you sure you want to continue connecting (yes/no/[fingerprint])?
+```
+
+Digite `yes` e pressione Enter. A nova chave será adicionada ao `known_hosts`.
+
+---
+
+ Feito com ChatGPT!!!!!
+
+ # ssh, linux, chave
